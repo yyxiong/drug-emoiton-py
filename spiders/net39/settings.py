@@ -64,9 +64,10 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'net39.pipelines.Net39Pipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'net39.pipelines.DuplicatesPipeline': 1,
+   'net39.pipelines.DrugItemPipeline': 3,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -88,3 +89,9 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+# mongodb connection
+MONGO_URI = '127.0.0.1:27017'
+MONGO_DATABASE = 'drug_emotion'
+# MONGODB_DOCNAME = 'articles'
