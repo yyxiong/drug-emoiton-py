@@ -94,6 +94,9 @@ ITEM_PIPELINES = {
 DEPTH_PRIORITY = -2
 SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
 
+# pausing and resuming crawls
+JOBDIR = '/tmp'
+
 # mongodb connection
 # MONGO_URI = '127.0.0.1:27017'
 MONGO_URI = 'host.docker.internal:27017'
