@@ -66,7 +66,7 @@ ROBOTSTXT_OBEY = True
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'net39.pipelines.DuplicatesPipeline': 1,
-   'net39.pipelines.DrugItemPipeline': 3,
+   'net39.pipelines.DrugPipeline': 100,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -92,6 +92,7 @@ ITEM_PIPELINES = {
 
 
 # mongodb connection
-MONGO_URI = '127.0.0.1:27017'
+# MONGO_URI = '127.0.0.1:27017'
+MONGO_URI = 'host.docker.internal:27017'
 MONGO_DATABASE = 'drug_emotion'
 # MONGODB_DOCNAME = 'articles'

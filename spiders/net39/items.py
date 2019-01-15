@@ -22,6 +22,8 @@ from scrapy.item import Item, Field
 class DrugItem(Item):
     # 批准文号
     approval_number = Field()
+    # 关联的平台药品ID
+    drug_id = Field()
     # 药物名称
     name = Field()
     # 药物英文名
@@ -54,6 +56,10 @@ class DrugItem(Item):
 class DrugComment(Item):
     # 批准文号，关联
     approval_number = Field()
+    # 关联的平台药品ID
+    drug_id = Field()
+    # 关联的平台评论ID
+    comment_id = Field()
     # 疗效
     efficacy_level = Field()
     # 副作用

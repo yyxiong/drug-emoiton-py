@@ -12,9 +12,10 @@ class Net39Spider(CrawlSpider):
   start_urls = ['http://ypk.39.net/']
   # start_urls = ['http://ypk.39.net/569620/']
   # start_urls = ['http://ypk.39.net/508685/comment']
+  # start_urls = ['http://ypk.39.net/508685/comment/k0_p2']
 
   item_pattern = r'/\d+/$'
-  comment_pattern = r'/\d+/comment$'
+  comment_pattern = r'/\d+/comment'
 
   rules = [
     Rule(
@@ -42,24 +43,13 @@ class Net39Spider(CrawlSpider):
     self.log('列表: %s' % response.url)
 
   def parse_item(self, response):
-    self.log('药物详情: %s' % response.url)
-    sel = Selector(response)
-    drug = parse_drug_item(sel)
-    # print(drug)
-    # item = DrugItem()
-    # item['approval_number'] = ''
-    # yield item
+    # self.log('药物详情: %s' % response.url)
+    drug = parse_drug_item(response)
+    yield DrugItem(**drug)
 
   def parse_comment(self, response):
-      self.log('药物评价: %s' % response.url)
-      sel = Selector(response)
-      comments = parse_drug_comments(sel)
-      # print(comments[0])
-      # list(map(lambda comment:
-
-      # , comments))
-
-
-      item = DrugComment()
-      # item.duration
-      yield item
+    # self.log('药物评价: %s' % response.url)
+    [drug_id, comments] = parse_drug_comments(response)
+    for item in comments:
+      item.drug_id = drug_id
+      yield DrugComment(**item)
