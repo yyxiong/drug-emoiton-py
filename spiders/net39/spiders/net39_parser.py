@@ -10,55 +10,46 @@ def get_item_left_value(sel, attr):
 
 def get_item_right_value(sel, attr):
   dom_strong = sel.xpath('//div[@class="gs_right"]/div[@class="ps"]/p/strong[normalize-space(text()) = "%s"]' % attr)
-  return dom_strong.xpath('./following-sibling::text() | ./following-sibling::a/text()').extract_first()
+  value = dom_strong.xpath('./following-sibling::text() | ./following-sibling::a/text()').extract()
+  return ''.join(value)
 
 def get_tags(sel):
   return sel.xpath('//div[@class="gs_right"]/div[@class="related_tips"]/div/a/text()').extract()
-
-# def get_drug_name(sel):
-#   value = sel.xpath('//div[@class="yps_top"]//h1/a/text()').extract()
-#   return ''.join(value)
-
-# def get_company(sel, attr):
-#   value = sel.xpath('//div[@class="yps_top"]/ul//li[@class="%s"]/a/text()' % attr).extract()
-#   return ''.join(value)
 
 def get_company_value(dom_top, attr):
   value = dom_top.xpath('./ul//li[@class="%s"]/text()' % attr).extract()
   return ''.join(value)
 
-# def get_comment_href(sel):
-#   value = sel.xpath('//div[@class="yps_top"]/div[@class="t4"]/ul/li/a[text()="用药经验"]/@href').extract()
-#   return ''.join(value)
-
 def parse_drug_item(response):
   sel = Selector(response)
-  approval_number = get_item_left_value(sel, '批准文号：')
-  approval_date = get_item_left_value(sel, '批准日期：')
-  composition = get_item_right_value(sel, '成\xa0\xa0分')
-  indications = get_item_right_value(sel, '功能主治')
-  dosage = get_item_right_value(sel, '用法用量')
-
   dom_top = sel.xpath('//div[@class="yps_top"]')
   name = ''.join(dom_top.xpath('./div[@class="t1"]/h1/a/text()').extract())
-  tags = get_tags(sel)
-  company = ''.join(dom_top.xpath('ul/li[@class="company"]/a/text()').extract())
-  address = get_company_value(sel, 'address')
-  telephone = get_company_value(sel, 'telephone')
-  drug_id = parse_drug_id(response.url, isIndex=True)
-  return {
-    'drug_id': drug_id,
-    'name': name,
-    'tags': tags,
-    'approval_number': approval_number,
-    'approval_date': approval_date,
-    'composition': composition,
-    'indications': trim(indications),
-    'dosage': dosage,
-    'company': company,
-    'address': address,
-    'telephone': telephone
-  }
+  if name:
+    tags = get_tags(sel)
+    company = ''.join(dom_top.xpath('ul/li[@class="company"]/a/text()').extract())
+    address = get_company_value(sel, 'address')
+    telephone = get_company_value(sel, 'telephone')
+    drug_id = parse_drug_id(response.url, isIndex=True)
+
+    approval_number = get_item_left_value(sel, '批准文号：')
+    approval_date = get_item_left_value(sel, '批准日期：')
+    composition = get_item_right_value(sel, '成\xa0\xa0分')
+    indications = get_item_right_value(sel, '功能主治')
+    dosage = get_item_right_value(sel, '用法用量')
+
+    return {
+      'drug_id': drug_id,
+      'name': name,
+      'tags': tags,
+      'approval_number': trim(approval_number),
+      'approval_date': approval_date,
+      'composition': composition,
+      'indications': trim(indications),
+      'dosage': dosage,
+      'company': company,
+      'address': address,
+      'telephone': telephone
+    }
 
 def trim(str):
   return re.sub(r'[ \t\r\n\xa0]', '', str) if str else ''
@@ -94,7 +85,6 @@ def parse_drug_comment(box):
 
   user = parse_user(user_str)
   return {
-    # 'user': user,
     **user,
     'submit_time': parse_submit_time(submit_time),
     'efficacy_level': parse_levels(levels),

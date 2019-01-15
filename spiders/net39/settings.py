@@ -90,6 +90,9 @@ ITEM_PIPELINES = {
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
+#Scrapy crawl in breadth-first or depth-first order
+DEPTH_PRIORITY = -3
+SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
 
 # mongodb connection
 # MONGO_URI = '127.0.0.1:27017'

@@ -10,7 +10,7 @@ class Net39Spider(CrawlSpider):
   name = 'net39'
   allowed_domains = ['ypk.39.net']
   start_urls = ['http://ypk.39.net/']
-  # start_urls = ['http://ypk.39.net/569620/']
+  # start_urls = ['http://ypk.39.net/835343/']
   # start_urls = ['http://ypk.39.net/508685/comment']
   # start_urls = ['http://ypk.39.net/508685/comment/k0_p2']
 
@@ -26,16 +26,16 @@ class Net39Spider(CrawlSpider):
     ),
     Rule(
       LinkExtractor(
+        allow=(comment_pattern)
+      ),
+      callback='parse_comment'
+    ),
+    Rule(
+      LinkExtractor(
         allow=(item_pattern),
       ),
       follow=True,
       callback='parse_item'
-    ),
-    Rule(
-      LinkExtractor(
-        allow=(comment_pattern)
-      ),
-      callback='parse_comment'
     ),
   ]
 
@@ -45,7 +45,8 @@ class Net39Spider(CrawlSpider):
   def parse_item(self, response):
     # self.log('药物详情: %s' % response.url)
     drug = parse_drug_item(response)
-    yield DrugItem(**drug)
+    if drug:
+      yield DrugItem(**drug)
 
   def parse_comment(self, response):
     # self.log('药物评价: %s' % response.url)
