@@ -22,7 +22,7 @@ NEWSPIDER_MODULE = 'net39.spiders'
 ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -91,11 +91,10 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 #Scrapy crawl in breadth-first or depth-first order
-DEPTH_PRIORITY = -3
+DEPTH_PRIORITY = -2
 SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
 
 # mongodb connection
 # MONGO_URI = '127.0.0.1:27017'
 MONGO_URI = 'host.docker.internal:27017'
 MONGO_DATABASE = 'drug_emotion'
-# MONGODB_DOCNAME = 'articles'

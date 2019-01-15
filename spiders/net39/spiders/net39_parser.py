@@ -88,7 +88,7 @@ def parse_drug_comment(box):
     **user,
     'submit_time': parse_submit_time(submit_time),
     'efficacy_level': parse_levels(levels),
-    'comment': comment,
+    'comment': trim(comment),
     'comment_id': comment_id
   }
 

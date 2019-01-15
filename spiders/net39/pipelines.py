@@ -20,15 +20,16 @@ class DuplicatesPipeline(object):
     '''
     过滤重复数据
     '''
-    if item['name'] is None:
-      pass
-    elif isinstance(item, DrugItem):
-      drug_id = item['drug_id']
-      if drug_id in self.drugs_seen:
+    if isinstance(item, DrugItem):
+      if item['name'] is None:
         pass
       else:
-        self.drugs_seen.add(drug_id)
-        return item
+        drug_id = item['drug_id']
+        if drug_id in self.drugs_seen:
+          pass
+        else:
+          self.drugs_seen.add(drug_id)
+          return item
     elif isinstance(item, DrugComment):
       comment_id = item['comment_id']
       if comment_id in self.comments_seen:
