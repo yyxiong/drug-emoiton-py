@@ -20,22 +20,22 @@ class Net39Spider(CrawlSpider):
   rules = [
     Rule(
       LinkExtractor(
-        deny=('search/*', '.html', '.aspx', item_pattern)
-      ),
-      callback='parse_list'
-    ),
-    Rule(
-      LinkExtractor(
-        allow=(comment_pattern)
+        allow=comment_pattern
       ),
       callback='parse_comment'
     ),
     Rule(
       LinkExtractor(
-        allow=(item_pattern),
+        allow=item_pattern,
       ),
       follow=True,
       callback='parse_item'
+    ),
+    Rule(
+      LinkExtractor(
+        deny=('search/*', '.html', '.aspx', item_pattern)
+      ),
+      callback='parse_list'
     ),
   ]
 
